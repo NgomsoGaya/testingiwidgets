@@ -167,6 +167,38 @@ describe('Test my Settings bill function' , function(){
 
     
         });
+
+        it( "should allow us to update critical level and continue adding", function(){
+            let settingsBill2 = updateClicked()
+            let settingsBillTotal2 = addClicked()
+    
+            settingsBill2.setSettingsSmsCost(2)
+            settingsBill2.setSettingsCallCost(5)
+            settingsBill2.setWarningLevel(10)
+            settingsBill2.setCriticalLevel(15)
+
+            settingsBillTotal2.sumSettingsSms("sms")
+            settingsBillTotal2.sumSettingsSms("sms")
+            settingsBillTotal2.sumSettingsSms("sms")
+            settingsBillTotal2.sumSettingsCall("call")
+            settingsBillTotal2.sumSettingsCall("call")
+            settingsBillTotal2.sumSettingsCall("call")
+
+    
+            assert.equal("critical", settingsBillTotal2.criticalClassName());
+            assert.equal(16, settingsBillTotal2.sumTotal())
+
+            settingsBill2.setCriticalLevel(25)
+
+            settingsBillTotal2.sumSettingsSms("sms")
+            settingsBillTotal2.sumSettingsCall("call")
+
+            assert.equal("warning", settingsBillTotal2.warningClassName());
+            assert.equal(23, settingsBillTotal2.sumTotal())
+
+
+    
+        });
     })
 
 });
